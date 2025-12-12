@@ -27,7 +27,7 @@ contract MockPoolManager is IPoolManager {
     }
 
     function getPoolState(bytes32) external view override returns (PoolState memory) {
-        return PoolState({tick: currentTick});
+        return IPoolManagerHook.PoolState({tick: currentTick});
     }
 
     function getTWAP(bytes32, uint32) external view override returns (int24 twapTick) {

@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.24;
 
-import {IPoolManager} from "v4-core/interfaces/IPoolManager.sol";
+import {IPoolManagerHook} from "../interfaces/IPoolManagerHook.sol";
 import {IBeforeAddLiquidityHook} from "../interfaces/IBeforeAddLiquidityHook.sol";
 import {VolatilityOracle} from "../libraries/VolatilityOracle.sol";
 
@@ -13,22 +13,22 @@ import {VolatilityOracle} from "../libraries/VolatilityOracle.sol";
 ///
 /// IMPORTANTE: el constructor SOLO recibe el manager, no un poolId.
 contract AutoRangeTriPillar is IBeforeAddLiquidityHook {
-    IPoolManager public immutable manager;
+    IPoolManagerHook public immutable manager;
 
-    constructor(IPoolManager _manager) {
+    constructor(IPoolManagerHook _manager) {
         manager = _manager;
     }
 
     function beforeAddLiquidity(
         address /*sender*/,
         bytes32 poolId,
-        IPoolManager.ModifyLiquidityParams calldata params,
+        IPoolManagerHook.ModifyLiquidityParams calldata params,
         bytes calldata
-    ) external override returns (IPoolManager.ModifyLiquidityParams memory newParams) {
+    ) external override returns (IPoolManagerHook.ModifyLiquidityParams memory newParams) {
         require(msg.sender == address(manager), "AutoRangeTriPillar: only manager");
 
         // 1. Estado del pool y TWAP
-        IPoolManager.PoolState memory state = manager.getPoolState(poolId);
+        IPoolManagerHook.PoolState memory state = manager.getPoolState(poolId);
         int24 tick = state.tick;
 
         int24 twapTick = manager.getTWAP(poolId, 300);
@@ -58,13 +58,13 @@ contract AutoRangeTriPillar is IBeforeAddLiquidityHook {
         // 4. Reparto de liquidez
         int128 L = params.liquidityDelta;
 
-        int128 Lcentral = L / 2;        // 50%
-        int128 Lside    = L / 4;        // 25% + 25%
+        int128 Lcentral = L / 2; // 50%
+        int128 Lside    = L / 4; // 25% + 25%
 
         // 5. Tres llamadas a modifyLiquidity
         manager.modifyLiquidity(
             poolId,
-            IPoolManager.ModifyLiquidityParams({
+            IPoolManagerHook.ModifyLiquidityParams({
                 tickLower: centralLower,
                 tickUpper: centralUpper,
                 liquidityDelta: Lcentral,
@@ -74,7 +74,7 @@ contract AutoRangeTriPillar is IBeforeAddLiquidityHook {
 
         manager.modifyLiquidity(
             poolId,
-            IPoolManager.ModifyLiquidityParams({
+            IPoolManagerHook.ModifyLiquidityParams({
                 tickLower: lowerLower,
                 tickUpper: lowerUpper,
                 liquidityDelta: Lside,
@@ -84,7 +84,7 @@ contract AutoRangeTriPillar is IBeforeAddLiquidityHook {
 
         manager.modifyLiquidity(
             poolId,
-            IPoolManager.ModifyLiquidityParams({
+            IPoolManagerHook.ModifyLiquidityParams({
                 tickLower: upperLower,
                 tickUpper: upperUpper,
                 liquidityDelta: Lside,
@@ -94,7 +94,7 @@ contract AutoRangeTriPillar is IBeforeAddLiquidityHook {
 
         // 6. Como el hook ya ha aplicado toda la liquidez,
         // devolvemos 0 para indicar que no queda nada que procesar.
-        newParams = IPoolManager.ModifyLiquidityParams({
+        newParams = IPoolManagerHook.ModifyLiquidityParams({
             tickLower: 0,
             tickUpper: 0,
             liquidityDelta: 0,
