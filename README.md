@@ -1,17 +1,10 @@
 # AutoRange TriPillar Hook
 
-This repository is a **minimal Foundry sandbox** designed so you can run and test
-your tri‑pillar hook logic **without dealing with the full Uniswap v4 stack**.
-
-It does **not** use real `v4-core` or `v4-periphery`.  
-Instead, it includes minimal interfaces fully under your control.  
-Once validated, you can port the logic to a real v4 hook.
-
 ## What the hook does
 
 On every `beforeAddLiquidity` call:
 
-- It reads the current `tick` and a simulated TWAP from `IPPoolManager` (mocked in tests).
+- It reads the current `tick` and a TWAP from `IPPoolManager`
 - It computes a dynamic central range based on volatility = |tick - twap|:
   - vol < 10  → R = 3
   - vol < 30 → R = 6
@@ -66,30 +59,6 @@ forge install foundry-rs/forge-std
 ```bash
 forge test
 ```
-
-## Cheap deployment to BNB (for experimentation)
-
-> This does NOT deploy real Uniswap v4. It only deploys:
-> - MockPoolManager  
-> - HookFactory  
-> - AutoRangeTriPillar
-
-```bash
-export PRIVATE_KEY=0x...
-export BSC_RPC_URL="https://bsc-dataseed.binance.org"
-
-forge script script/DeployHookFromFactory.s.sol:DeployHookFromFactory   --rpc-url $BSC_RPC_URL --broadcast -vvvv
-```
-
-Console output example:
-
-```
-MockPoolManager deployed at: 0x...
-HookFactory deployed at:     0x...
-AutoRangeTriPillar deployed at: 0x....0010
-```
-
-You can then view these addresses on BscScan.
 
 ## How to port this to real Uniswap v4
 
