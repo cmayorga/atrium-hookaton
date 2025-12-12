@@ -11,7 +11,6 @@ import {VolatilityOracle} from "../libraries/VolatilityOracle.sol";
 /// - Usa el 25% en un rango inferior de 6 ticks
 /// - Usa el 25% en un rango superior de 6 ticks
 ///
-/// IMPORTANTE: el constructor SOLO recibe el manager, no un poolId.
 contract AutoRangeTriPillar is IBeforeAddLiquidityHook {
     IPoolManagerHook public immutable manager;
 
@@ -27,13 +26,11 @@ contract AutoRangeTriPillar is IBeforeAddLiquidityHook {
     ) external override returns (IPoolManagerHook.ModifyLiquidityParams memory newParams) {
         require(msg.sender == address(manager), "AutoRangeTriPillar: only manager");
 
-        // 1. Estado del pool y TWAP
         IPoolManagerHook.PoolState memory state = manager.getPoolState(poolId);
         int24 tick = state.tick;
 
         int24 twapTick = manager.getTWAP(poolId, 300);
 
-        // 2. Volatilidad y rango dinámico
         uint256 vol = VolatilityOracle.computeVolatility(tick, twapTick);
 
         int24 R;
@@ -45,7 +42,6 @@ contract AutoRangeTriPillar is IBeforeAddLiquidityHook {
             R = 12;
         }
 
-        // 3. Rangos
         int24 centralLower = tick - R;
         int24 centralUpper = tick + R;
 
@@ -61,7 +57,6 @@ contract AutoRangeTriPillar is IBeforeAddLiquidityHook {
         int128 Lcentral = L / 2; // 50%
         int128 Lside    = L / 4; // 25% + 25%
 
-        // 5. Tres llamadas a modifyLiquidity
         manager.modifyLiquidity(
             poolId,
             IPoolManagerHook.ModifyLiquidityParams({
@@ -92,8 +87,6 @@ contract AutoRangeTriPillar is IBeforeAddLiquidityHook {
             })
         );
 
-        // 6. Como el hook ya ha aplicado toda la liquidez,
-        // devolvemos 0 para indicar que no queda nada que procesar.
         newParams = IPoolManagerHook.ModifyLiquidityParams({
             tickLower: 0,
             tickUpper: 0,

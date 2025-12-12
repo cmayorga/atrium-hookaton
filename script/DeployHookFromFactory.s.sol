@@ -5,7 +5,6 @@ import "forge-std/Script.sol";
 import {HookFactory} from "../src/HookFactory.sol";
 import {MockPoolManager} from "../test/mocks/MockPoolManager.sol";
 
-/// @notice Script de ejemplo para desplegar MockPoolManager, HookFactory y un hook en cualquier red EVM.
 contract DeployHookFromFactory is Script {
     function run() external {
         uint256 pk = vm.envUint("PRIVATE_KEY");

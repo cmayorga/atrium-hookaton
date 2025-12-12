@@ -3,7 +3,6 @@ pragma solidity ^0.8.24;
 
 import {IPoolManagerHook} from "./IPoolManagerHook.sol";
 
-/// @notice Interfaz simplificada de un hook beforeAddLiquidity.
 interface IBeforeAddLiquidityHook {
     function beforeAddLiquidity(
         address sender,
