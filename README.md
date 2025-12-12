@@ -60,30 +60,6 @@ forge install foundry-rs/forge-std
 forge test
 ```
 
-## Cheap deployment to BNB (for experimentation)
-
-> This does NOT deploy real Uniswap v4. It only deploys:
-> - MockPoolManager  
-> - HookFactory  
-> - AutoRangeTriPillar
-
-```bash
-export PRIVATE_KEY=0x...
-export BSC_RPC_URL="https://bsc-dataseed.binance.org"
-
-forge script script/DeployHookFromFactory.s.sol:DeployHookFromFactory   --rpc-url $BSC_RPC_URL --broadcast -vvvv
-```
-
-Console output example:
-
-```
-MockPoolManager deployed at: 0x...
-HookFactory deployed at:     0x...
-AutoRangeTriPillar deployed at: 0x....0010
-```
-
-You can then view these addresses on BscScan.
-
 ## How to port this to real Uniswap v4
 
 1. Replace `IPoolManager` with the official v4-core interface.
