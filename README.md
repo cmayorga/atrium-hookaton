@@ -1,4 +1,4 @@
-# AutoRange TriPillar Hook (v4-style sandbox)
+# AutoRange TriPillar Hook
 
 This repository is a **minimal Foundry sandbox** designed so you can run and test
 your tri‑pillar hook logic **without dealing with the full Uniswap v4 stack**.
