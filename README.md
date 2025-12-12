@@ -4,7 +4,7 @@
 
 On every `beforeAddLiquidity` call:
 
-- It reads the current `tick` and a simulated TWAP from `IPPoolManager` (mocked in tests).
+- It reads the current `tick` and a TWAP from `IPPoolManager`
 - It computes a dynamic central range based on volatility = |tick - twap|:
   - vol < 10  → R = 3
   - vol < 30 → R = 6
