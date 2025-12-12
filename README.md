@@ -19,7 +19,7 @@ On every `beforeAddLiquidity` call:
 
 ## Files
 
-- `import {IPoolManager} from "v4-core/interfaces/IPoolManager.sol";`  
+- `src/interfaces/IPoolManagerHook.sol";`  
   Minimal PoolManager interface (getPoolState, getTWAP, modifyLiquidity).
 
 - `src/interfaces/IBeforeAddLiquidityHook.sol`  
@@ -52,6 +52,8 @@ On every `beforeAddLiquidity` call:
 
 ```bash
 forge install foundry-rs/forge-std
+forge install uniswap/v4-core@main
+forge install uniswap/v4-periphery@main
 ```
 
 ## Tests
