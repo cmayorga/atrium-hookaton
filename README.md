@@ -1,12 +1,5 @@
 # AutoRange TriPillar Hook
 
-This repository is a **minimal Foundry sandbox** designed so you can run and test
-your tri‑pillar hook logic **without dealing with the full Uniswap v4 stack**.
-
-It does **not** use real `v4-core` or `v4-periphery`.  
-Instead, it includes minimal interfaces fully under your control.  
-Once validated, you can port the logic to a real v4 hook.
-
 ## What the hook does
 
 On every `beforeAddLiquidity` call:
