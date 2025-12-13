@@ -110,7 +110,7 @@ forge script script/DeployTripillar.s.sol:DeployTripillar \
 ### Unit tests
 
 ```bash
-forge test
+forge test --match-path test/TriPillarMath.t.sol -vvvv
 ```
 
 ---
@@ -135,5 +135,5 @@ TOKEN1=0x...
 ### Run fork test
 
 ```bash
-forge test -vv
+forge test --match-path test/AutoRangeTriPillarFork.t.sol -vvvv
 ```
