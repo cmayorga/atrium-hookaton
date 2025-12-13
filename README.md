@@ -2,8 +2,6 @@
 
 ## What the hook does
 
-https://github.com/cmayorga/atrium-hookaton/blob/main/video/TriPillar_%20Smart%20Liquidity.mp4
-
 On every `beforeAddLiquidity` call:
 
 - It reads the current `tick` and a TWAP from `IPPoolManager`
