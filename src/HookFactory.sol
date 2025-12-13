@@ -4,8 +4,6 @@ pragma solidity ^0.8.24;
 import {IPoolManager} from "v4-core/interfaces/IPoolManager.sol";
 import {AutoRangeTriPillar} from "./hooks/AutoRangeTriPillar.sol";
 
-/// @notice HookFactory que despliega AutoRangeTriPillar usando CREATE2
-///         y fuerza que los 16 bits bajos de la address sean 0x0010.
 contract HookFactory {
     event HookDeployed(address hook, bytes32 salt);
 

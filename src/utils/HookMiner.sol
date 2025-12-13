@@ -2,6 +2,8 @@
 pragma solidity ^0.8.24;
 
 library HookMiner {
+    uint160 internal constant ALL_HOOK_MASK = uint160((1 << 14) - 1);
+
     function computeAddress(
         address deployer,
         bytes32 salt,
@@ -15,14 +17,24 @@ library HookMiner {
 
     function find(
         address deployer,
-        uint160 flags,
+        uint160 desiredMask,
         bytes memory creationCode
-    ) internal pure returns (address hookAddress, bytes32 salt) {
-        for (uint256 i = 0; i < type(uint32).max; i++) {
-            bytes32 s = bytes32(uint256(i));
+    ) internal view returns (address hookAddress, bytes32 salt) {
+        uint256 seed = uint256(
+            keccak256(
+                abi.encodePacked(
+                    block.timestamp,
+                    block.number,
+                    msg.sender,
+                    tx.origin
+                )
+            )
+        );
 
+        for (uint256 i = 0; i < type(uint32).max; i++) {
+            bytes32 s = bytes32(seed + i);
             address candidate = computeAddress(deployer, s, creationCode);
-            if ((uint160(candidate) & flags) == flags) {
+            if ((uint160(candidate) & ALL_HOOK_MASK) == desiredMask) {
                 return (candidate, s);
             }
         }

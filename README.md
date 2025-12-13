@@ -133,7 +133,14 @@ TOKEN1=0x...
 ```
 
 ### Run fork test
+Copy the Hook address deployed to .env file
+You can get the hook address from deploy script output: HOOK deployed at: 0x....
+```
+HOOK_ADDRESS=0x...
+```
+
 
 ```bash
+source .env
 forge test --match-path test/AutoRangeTriPillarFork.t.sol -vvvv
 ```
