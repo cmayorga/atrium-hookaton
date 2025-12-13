@@ -63,14 +63,3 @@ forge install uniswap/v4-periphery@main
 ```bash
 forge test
 ```
-
-## How to port this to real Uniswap v4
-
-1. Replace `IPoolManager` with the official v4-core interface.
-2. Update the `beforeAddLiquidity` signature to use `PoolKey` and `Hooks`.
-3. Move the tri‑pillar logic into the `unlock()/lockAcquired` flow instead of
-   calling `modifyLiquidity` directly.
-4. Keep the main structure:
-   - dynamic central range based on volatility,
-   - 50% central, 25% lower, 25% upper,
-   - 3 pillars overlapping by ±6 ticks.
