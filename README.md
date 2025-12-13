@@ -92,6 +92,20 @@ v4-periphery/=lib/v4-periphery/
 forge-std/=lib/forge-std/src/
 ```
 
+### Environment variables
+
+Clone .env.example into a new .env file and fill with your custom values
+
+```
+RPC_URL=https://<your-rpc-endpoint>
+PRIVATE_KEY=0x.... 
+BSCSCAN_API_KEY=...
+POOL_MANAGER=0x....
+TOKEN0=0x....
+TOKEN1=0x....
+HOOK_ADDRESS=0x....  <When hook be deployed>
+```
+
 ---
 
 ## Deployment
@@ -123,18 +137,10 @@ forge test --match-path test/TriPillarMath.t.sol -vvvv
 test/AutoRangeTriPillarFork.t.sol
 ```
 
-### Environment variables
-
-```env
-RPC_URL=https://<your-rpc-endpoint>
-POOL_MANAGER=0x...
-TOKEN0=0x...
-TOKEN1=0x...
-```
-
 ### Run fork test
 Copy the Hook address deployed to .env file
-You can get the hook address from deploy script output: HOOK deployed at: 0x....
+
+You can get the hook address from deploy script output log: HOOK deployed at: 0x....
 ```
 HOOK_ADDRESS=0x...
 ```
