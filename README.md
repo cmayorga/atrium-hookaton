@@ -3,6 +3,10 @@
 ## What the hook does
 
 
+
+https://github.com/user-attachments/assets/b5bdda68-e984-489c-95b2-5ad7d4899a8e
+
+
 On every `beforeAddLiquidity` call:
 
 - It reads the current `tick` and a TWAP from `IPPoolManager`
