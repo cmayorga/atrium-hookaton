@@ -1,5 +1,6 @@
 /out
 /lib
+lib/*
 
 .env
 !.env.*

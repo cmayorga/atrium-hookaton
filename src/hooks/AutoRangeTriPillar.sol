@@ -28,6 +28,7 @@ contract AutoRangeTriPillar is BaseHook {
 
     function getHookPermissions() public pure override returns (Hooks.Permissions memory) {
         Hooks.Permissions memory p;
+        p.beforeInitialize = true;
         p.beforeAddLiquidity = true;
         return p;
     }
@@ -50,6 +51,17 @@ contract AutoRangeTriPillar is BaseHook {
 
         return TriPillarMath.compute(tick, key.tickSpacing, rSteps, userParams.liquidityDelta, userParams.salt);
     }
+
+function _beforeInitialize(
+    address,
+    PoolKey calldata,
+    uint160
+) internal override returns (bytes4) {
+    return BaseHook.beforeInitialize.selector;
+}
+
+
+ 
 
     function _beforeAddLiquidity(
         address,
