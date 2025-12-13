@@ -2,10 +2,7 @@
 
 ## What the hook does
 
-
-
-https://github.com/user-attachments/assets/b5bdda68-e984-489c-95b2-5ad7d4899a8e
-
+https://github.com/cmayorga/atrium-hookaton/blob/main/video/TriPillar_%20Smart%20Liquidity.mp4
 
 On every `beforeAddLiquidity` call:
 
