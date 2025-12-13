@@ -2,18 +2,22 @@
 pragma solidity ^0.8.24;
 
 import "forge-std/Script.sol";
-import {AutoRangeTriPillar} from "../src/hooks/AutoRangeTriPillar.sol";
-import {IPoolManager} from "v4-core/interfaces/IPoolManager.sol";
 
-contract DeployTriPillar is Script {
+import {IPoolManager} from "@uniswap/v4-core/src/interfaces/IPoolManager.sol";
+import {AutoRangeTriPillar} from "../src/hooks/AutoRangeTriPillar.sol";
+
+contract DeployTripillar is Script {
     function run() external {
         uint256 pk = vm.envUint("PRIVATE_KEY");
-        IPoolManager manager = IPoolManager(vm.envAddress("POOL_MANAGER"));
+        address poolManagerAddr = vm.envAddress("POOL_MANAGER");
 
         vm.startBroadcast(pk);
-        AutoRangeTriPillar hook = new AutoRangeTriPillar(manager);
+
+        AutoRangeTriPillar hook =
+            new AutoRangeTriPillar(IPoolManager(poolManagerAddr));
+
         vm.stopBroadcast();
 
-        console2.log("Hook deployed at:", address(hook));
+        console2.log("AutoRangeTriPillar deployed at:", address(hook));
     }
 }
