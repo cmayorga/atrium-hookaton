@@ -1,7 +1,6 @@
 # AutoRange TriPillar Hook
 
 ## What the hook does
-[![Watch the video]](https://github.com/cmayorga/atrium-hookaton/blob/main/video/TriPillar_%20Smart%20Liquidity.mp4)
 
 
 On every `beforeAddLiquidity` call:
