@@ -19,8 +19,6 @@ Liquidity is split **50% / 25% / 25%** across these ranges.
 Due to the locking model of Uniswap v4 hooks, the hook **does not directly call `modifyLiquidity`**.  
 Instead, it computes and exposes the ranges, which are then executed by a dedicated **periphery executor** contract in a single transaction.
 
-This is the intended and safe pattern for Uniswap v4 hooks.
-
 ---
 
 ## What the hook does
